@@ -1,6 +1,6 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+# from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 
 
@@ -24,7 +24,11 @@ st.write("The name on your smoothie will be:", name_on_order)
 
 # st.write("Your favorite fruit is:", option)
 
-session = get_active_session()
+# session = get_active_session() # Use this for SiS (Streamlit in Snowflake)
+# With SniS, users will be able to connect to your app more easily. You can set up your SniS app in a way that doesn't require them to log in or have a USER in your Snowflake account. In fact, Streamlit will host your app for free if you make it open to the public. 
+cnx = st.connection("snowflake")
+session = cnx.session()
+
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 # st.dataframe(data=my_dataframe, use_container_width=True)
 
